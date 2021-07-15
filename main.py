@@ -20,7 +20,11 @@ class Ui_Dialog(object):
             "SmallImageText": str(self.SmallImageText.text())
         }
 
-        with open("./data/settings.json", "w+") as file:
+        for k, v in settings.items():
+            if v == '':
+                v = None
+
+        with open("./.data/settings.json", "w+") as file:
             json.dump(settings, file)
 
     def setupUi(self, Dialog):
@@ -115,11 +119,18 @@ class Ui_Dialog(object):
 class Tray(QSystemTrayIcon):
 
     def __init__(self, icon, parent, Dialog):
+        try:
+            with open("./.data/settings.json", "r+") as file:
+                self.settings = json.load(file)
+        except:
+            Dialog.show()
+            return
+
         QSystemTrayIcon.__init__(self, icon, parent)
 
         menu = QMenu(parent)
 
-        self.presence = Presence(865241127241252895)
+        self.presence = Presence(self.settings["ClientID"])
 
         connect = menu.addAction("Connect")
         connect.triggered.connect(self.connect)
@@ -148,6 +159,12 @@ class Tray(QSystemTrayIcon):
         start_time = time.time()
 
         self.presence.update(
+            state=self.settings["State"],
+            details=self.settings["Details"],
+            large_image=self.settings["LargeImage"],
+            large_text=self.settings["LargeImageText"],
+            small_image=self.settings["SmallImage"],
+            small_text=self.settings["SmallImageText"],
             start=start_time)
         self.setToolTip('RPC : Connected')
 
