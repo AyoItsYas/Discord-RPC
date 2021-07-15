@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QApplication, QMenu, QSystemTrayIcon, QWidget
 class Ui_Dialog(object):
     def clickMethod(self):
         settings = {
-            "ClientID": int(self.ClientID.text()),
+            "ApplicationID": int(self.ApplicationID.text()),
             "State": str(self.State.text()),
             "Details": str(self.Details.text()),
             "LargeImage": str(self.LargeImage.text()),
@@ -71,9 +71,9 @@ class Ui_Dialog(object):
         self.label_7.setGeometry(QtCore.QRect(210, 140, 71, 16))
         self.label_7.setObjectName("label_7")
 
-        self.ClientID = QtWidgets.QLineEdit(Dialog)
-        self.ClientID.setGeometry(QtCore.QRect(90, 20, 113, 20))
-        self.ClientID.setObjectName("ClientID")
+        self.ApplicationID = QtWidgets.QLineEdit(Dialog)
+        self.ApplicationID.setGeometry(QtCore.QRect(90, 20, 113, 20))
+        self.ApplicationID.setObjectName("ApplicationID")
 
         self.State = QtWidgets.QLineEdit(Dialog)
         self.State.setGeometry(QtCore.QRect(90, 50, 113, 20))
@@ -107,7 +107,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Discord RPC"))
-        self.label.setText(_translate("Dialog", "Client ID"))
+        self.label.setText(_translate("Dialog", "Application ID"))
         self.label_2.setText(_translate("Dialog", "State"))
         self.label_3.setText(_translate("Dialog", "Details"))
         self.label_4.setText(_translate("Dialog", "Large Image"))
@@ -130,7 +130,7 @@ class Tray(QSystemTrayIcon):
 
         menu = QMenu(parent)
 
-        self.presence = Presence(self.settings["ClientID"])
+        self.presence = Presence(self.settings["ApplicationID"])
 
         connect = menu.addAction("Connect")
         connect.triggered.connect(self.connect)
