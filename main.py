@@ -21,8 +21,8 @@ class Ui_Dialog(object):
         }
 
         for k, v in settings.items():
-            if v == '':
-                v = None
+            if v == "":
+                settings[k] = None
 
         with open("./.data/settings.json", "w+") as file:
             json.dump(settings, file)
@@ -119,14 +119,14 @@ class Ui_Dialog(object):
 class Tray(QSystemTrayIcon):
 
     def __init__(self, icon, parent, Dialog):
+        QSystemTrayIcon.__init__(self, icon, parent)
+
         try:
             with open("./.data/settings.json", "r+") as file:
                 self.settings = json.load(file)
         except:
             Dialog.show()
             return
-
-        QSystemTrayIcon.__init__(self, icon, parent)
 
         menu = QMenu(parent)
 
